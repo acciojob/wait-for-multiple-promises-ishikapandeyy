@@ -24,24 +24,24 @@ Promise.all([
   createPromise()
 ])
   .then((results) => {
-    const totalTime = (performance.now() - startTime) / 1000;
+  const totalTime = Math.max(...results);   // <-- the change
 
-    output.innerHTML = "";
+  output.innerHTML = "";
 
-    results.forEach((time, index) => {
-      output.innerHTML += `
-        <tr>
-          <td>Promise ${index + 1}</td>
-          <td>${time.toFixed(3)}</td>
-        </tr>
-      `;
-    });
-
+  results.forEach((time, index) => {
     output.innerHTML += `
       <tr>
-        <td>Total</td>
-        <td>${totalTime.toFixed(3)}</td>
+        <td>Promise ${index + 1}</td>
+        <td>${time.toFixed(3)}</td>
       </tr>
     `;
-  })
+  });
+
+  output.innerHTML += `
+    <tr>
+      <td>Total</td>
+      <td>${totalTime.toFixed(3)}</td>
+    </tr>
+  `;
+})
   .catch(console.error);
